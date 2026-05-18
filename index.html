@@ -1,122 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Investment Portfolio</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #0f172a;
-            color: #f8fafc;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 500px;
-            width: 100%;
-            background: #1e293b;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin: 0 0 5px 0;
-            color: #38bdf8;
-        }
-        p {
-            color: #94a3b8;
-            margin: 0 0 25px 0;
-            font-size: 0.95rem;
-        }
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid #334155;
-            padding-top: 15px;
-            margin-top: 25px;
-            font-size: 0.9rem;
-            color: #cbd5e1;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Investment Portfolio</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  :root {
+    --bg: #0b1729;
+    --bg-card: #0f1f36;
+    --line: #1a2d4a;
+    --accent: #2dd4bf;
+    --text: #e6edf6;
+    --muted: #6b8197;
+    --green: #2dd4bf;
+    --red: #ef6a6a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 56px 48px 40px; }
+  .eyebrow { color: var(--accent); font-size: 13px; letter-spacing: 4px; text-transform: uppercase; font-weight: 600; margin-bottom: 10px; }
+  h1 { font-size: 56px; font-weight: 800; letter-spacing: -1px; margin-bottom: 8px; color: #fff; }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
+  .perf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 0 0 32px; padding: 28px 0; border-top: 1.5px solid var(--accent); border-bottom: 1.5px solid var(--accent); background: linear-gradient(180deg, rgba(45,212,191,0.04), rgba(45,212,191,0.0)); }
+  .perf-item { text-align: center; padding: 0 24px; border-right: 1px solid var(--line); }
+  .perf-item:last-child { border-right: none; }
+  .perf-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 10px; }
+  .perf-value { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; color: #fff; line-height: 1; margin-bottom: 6px; }
+  .perf-value.pos { color: var(--green); }
+  .perf-value.neg { color: var(--red); }
+  .perf-sub { color: var(--muted); font-size: 12px; }
+  .alloc-section { margin-bottom: 40px; padding: 32px; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--line); }
+  .alloc-title { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 6px; }
+  .alloc-grid { display: grid; grid-template-columns: 280px 1fr; gap: 48px; align-items: center; }
+  .donut-wrap { position: relative; width: 280px; height: 280px; }
+  .section-header { color: #fff; font-size: 22px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 18px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 30px; }
+  thead th { text-align: left; color: var(--muted); font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 600; padding: 10px 0 14px; border-bottom: 1px solid var(--line); }
+  thead th.num { text-align: right; }
+  tbody td { padding: 12px 0; border-bottom: 1px solid #14253e; color: #cfd8e3; }
+  tbody td.tk { color: #fff; font-weight: 700; }
+  tbody td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  tbody td.val { text-align: right; font-weight: 600; color: var(--green); }
+  tbody td.val.neg { color: var(--red); }
+  tbody td.val .pnl { display: block; font-size: 10.5px; font-weight: 500; margin-top: 2px; opacity: 0.8; }
+  .meta { margin-top: 24px; display: flex; justify-content: space-between; color: var(--muted); font-size: 11.5px; }
+  @media (max-width: 768px) {
+    .perf { grid-template-columns: 1fr; gap: 20px 0; }
+    .perf-item { border-right: none; border-bottom: 1px solid var(--line); padding-bottom: 15px; }
+    .perf-item:last-child { border-bottom: none; }
+    .alloc-grid { grid-template-columns: 1fr; justify-items: center; }
+  }
+</style>
 </head>
 <body>
+<div class="wrap">
+  <div class="eyebrow">Portfolio</div>
+  <h1>Asset Inventory</h1>
+  <div class="subtitle">Live Tracking via GitHub Actions</div>
 
-    <div class="container">
-        <h1 id="total-value">Loading...</h1>
-        <p>Current Portfolio Value (EUR)</p>
-        
-        <canvas id="portfolioChart"></canvas>
-
-        <div class="stats">
-            <div>Invested: <span id="total-invested" style="font-weight: bold;">-</span></div>
-            <div>Profit/Loss: <span id="profit-loss" style="font-weight: bold;">-</span></div>
-        </div>
+  <!-- Viršutinės kortelės -->
+  <div class="perf">
+    <div class="perf-item">
+      <div class="perf-label">Total Value</div>
+      <div class="perf-value" id="total-value">€0.00</div>
+      <div class="perf-sub">Current Market Value</div>
     </div>
+    <div class="perf-item">
+      <div class="perf-label">Total Invested</div>
+      <div class="perf-value" id="total-invested">€0.00</div>
+      <div class="perf-sub" id="meta-months">-</div>
+    </div>
+    <div class="perf-item">
+      <div class="perf-label">Total Profit / Loss</div>
+      <div class="perf-value" id="total-pnl">€0.00</div>
+      <div class="perf-sub" id="total-pnl-pct">0.00%</div>
+    </div>
+  </div>
 
-    <script>
-        fetch('portfolio.json')
-            .then(res => res.json())
-            .then(data => {
-                // 1. Skaičiuojame dabartinę kiekvienos pozicijos vertę
-                const positions = data.positions.map(p => {
-                    const currentVal = p.shares * (p.currentPrice || p.avgPrice);
-                    const investedVal = p.shares * p.avgPrice;
-                    return { 
-                        ticker: p.ticker, 
-                        value: currentVal, 
-                        invested: investedVal,
-                        category: p.category 
-                    };
-                });
+  <!-- Grafiko sekcija -->
+  <div class="alloc-section">
+    <div class="alloc-title">Allocation by Category</div>
+    <div class="alloc-grid">
+      <div class="donut-wrap">
+        <canvas id="portfolioChart"></canvas>
+      </div>
+      <div style="color: var(--muted); font-size: 14px;">
+        Visual breakdown of your assets based on real-time prices.
+      </div>
+    </div>
+  </div>
 
-                // 2. Skaičiuojame bendras sumas
-                const currentTotal = positions.reduce((sum, p) => sum + p.value, 0);
-                const investedTotal = data.meta.totalInvested || positions.reduce((sum, p) => sum + p.invested, 0);
-                const profitLoss = currentTotal - investedTotal;
-                const profitPercent = (profitLoss / investedTotal) * 100;
+  <!-- Lentelė -->
+  <div class="section-header">All Positions</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Ticker</th>
+        <th>Category</th>
+        <th class="num">Shares</th>
+        <th class="num">Avg Price</th>
+        <th class="num">Current Value / PnL</th>
+      </tr>
+    </thead>
+    <tbody id="crypto-rows">
+      <!-- Duomenys bus įterpti automatiškai čia -->
+    </tbody>
+  </table>
 
-                // 3. Atvaizduojame skaičius puslapyje
-                document.getElementById('total-value').innerText = currentTotal.toLocaleString('lt-LT', { style: 'currency', currency: 'EUR' });
-                document.getElementById('total-invested').innerText = investedTotal.toLocaleString('lt-LT', { style: 'currency', currency: 'EUR' });
-                
-                const plElement = document.getElementById('profit-loss');
-                const sign = profitLoss >= 0 ? '+' : '';
-                plElement.innerText = `${sign}${profitLoss.toLocaleString('lt-LT', { style: 'currency', currency: 'EUR' })} (${sign}${profitPercent.toFixed(2)}%)`;
-                plElement.style.color = profitLoss >= 0 ? '#10b981' : '#ef4444';
+  <div class="meta">
+    <div>Automated Portfolio Tracker</div>
+    <div id="last-updated">Last update: --</div>
+  </div>
+</div>
 
-                // 4. Paruošiame duomenis grafikui
-                const labels = positions.map(p => p.ticker);
-                const values = positions.map(p => p.value);
-                const colors = positions.map(p => data.categoryColors[p.category] || '#94a3b8');
+<script>
+  fetch('portfolio.json')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('last-updated').innerText = `Last update: ${data.meta.lastUpdated}`;
+      document.getElementById('meta-months').innerText = `${data.meta.monthsActive} months active, €${data.meta.monthlyDCA}/mo DCA`;
 
-                // 5. Braižome grafiką
-                new Chart(document.getElementById('portfolioChart'), {
-                    type: 'doughnut',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: values,
-                            backgroundColor: colors,
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: { color: '#f8fafc', font: { family: 'sans-serif', size: 12 }, padding: 15 }
-                            }
-                        }
-                    }
-                });
-            });
-    </script>
+      let totalCurrentValue = 0;
+      let totalInvestedValue = data.meta.totalInvested;
+      
+      const tableBody = document.getElementById('crypto-rows');
+      const categoryTotals = {};
+
+      // Sukame ciklą per pozicijas
+      data.positions.forEach(p => {
+        const currentPrice = p.currentPrice || p.avgPrice;
+        const positionValue = p.shares * currentPrice;
+        const positionCost = p.shares * p.avgPrice;
+        const pnl = positionValue - positionCost;
+        const pnlPct = (pnl / positionCost) * 100;
+
+        totalCurrentValue += positionValue;
+
+        // Skaičiuojame kategorijų sumas grafikui
+        categoryTotals[p.category] = (categoryTotals[p.category] || 0) + positionValue;
+
+        // Generuojame lentelės eilutę
+        const tr = document.createElement('tr');
+        const pnlClass = pnl >= 0 ? 'val' : 'val neg';
+        const pnlSign = pnl >= 0 ? '+' : '';
+
+        tr.innerHTML = `
+          <td class="tk">${p.ticker}</td>
+          <td style="color: var(--muted)">${p.category}</td>
+          <td class="num">${p.shares.toFixed(4).replace(/\.?0+$/, '')}</td>
+          <td class="num">€${p.avgPrice.toFixed(2)}</td>
+          <td class="${pnlClass}">
+            €${positionValue.toLocaleString('lt-LT', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+            <span class="pnl">${pnlSign}${pnlPct.toFixed(1)}% (${pnlSign}€${Math.round(pnl)})</span>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      // Atnaujiname viršutines korteles
+      const totalPnL = totalCurrentValue - totalInvestedValue;
+      const totalPnLPct = (totalPnL / totalInvestedValue) * 100;
+
+      document.getElementById('total-value').innerText = `€${Math.round(totalCurrentValue).toLocaleString('lt-LT')}`;
+      document.getElementById('total-invested').innerText = `€${Math.round(totalInvestedValue).toLocaleString('lt-LT')}`;
+      
+      const pnlEl = document.getElementById('total-pnl');
+      pnlEl.innerText = `${totalPnL >= 0 ? '+' : ''}€${Math.round(totalPnL).toLocaleString('lt-LT')}`;
+      pnlEl.className = totalPnL >= 0 ? 'perf-value pos' : 'perf-value neg';
+      
+      const pnlPctEl = document.getElementById('total-pnl-pct');
+      pnlPctEl.innerText = `${totalPnL >= 0 ? '+' : ''}${totalPnLPct.toFixed(2)}% total return`;
+      pnlPctEl.style.color = totalPnL >= 0 ? 'var(--green)' : 'var(--red)';
+
+      // Braižome grafiką pagal dinamines kategorijas
+      const chartLabels = Object.keys(categoryTotals);
+      const chartValues = Object.values(categoryTotals);
+      const chartColors = chartLabels.map(cat => data.categoryColors[cat] || '#94a3b8');
+
+      new Chart(document.getElementById('portfolioChart'), {
+        type: 'doughnut',
+        data: {
+          labels: chartLabels,
+          datasets: [{
+            data: chartValues,
+            backgroundColor: chartColors,
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '75%',
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: { color: '#e6edf6', font: { size: 12 } }
+            }
+          }
+        }
+      });
+    });
+</script>
 </body>
 </html>
