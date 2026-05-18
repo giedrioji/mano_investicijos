@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "lastUpdated": "2026-05-18",
+    "totalInvested": 16780.43,
+    "monthlyDCA": 500.00,
+    "startDate": "2025-01-01",
+    "monthsActive": 16,
+    "currency": "EUR"
+  },
+  "positions": [
+    {
+      "ticker": "GLW",
+      "category": "Akcijos",
+      "shares": 3,
+      "avgPrice": 197.10,
+      "yahoo": "GLW"
+    },
+    {
+      "ticker": "ETN",
+      "category": "Akcijos",
+      "shares": 4,
+      "avgPrice": 403.91,
+      "yahoo": "ETN"
+    },
+    {
+      "ticker": "VWCE",
+      "category": "ETF",
+      "shares": 51.7881,
+      "avgPrice": 157.96,
+      "yahoo": "VWCE.DE"
+    },
+    {
+      "ticker": "GOOG",
+      "category": "Tech akcijos",
+      "shares": 2,
+      "avgPrice": 384.81,
+      "yahoo": "GOOG"
+    },
+    {
+      "ticker": "AVGO",
+      "category": "Tech akcijos",
+      "shares": 2,
+      "avgPrice": 438.47,
+      "yahoo": "AVGO"
+    },
+    {
+      "ticker": "HO",
+      "category": "Akcijos",
+      "shares": 4,
+      "avgPrice": 226.2,
+      "yahoo": "HO"
+    },
+    {
+      "ticker": "AI SBF",
+      "category": "Akcijos",
+      "shares": 6,
+      "avgPrice": 170.74,
+      "yahoo": "AI.PA"
+    },
+    {
+      "ticker": "ISRG",
+      "category": "Akcijos",
+      "shares": 1,
+      "avgPrice": 428.24,
+      "yahoo": "ISRG"
+    },
+    {
+      "ticker": "RHM",
+      "category": "Akcijos",
+      "shares": 2,
+      "avgPrice": 1194.5,
+      "yahoo": "RHM.DE"
+    }
+  ],
+  "categoryColors": {
+    "Akcijos": "#2dd4bf",
+    "Tech akcijos": "#60a5fa",
+    "ETF": "#818cf8"
+  }
+}
