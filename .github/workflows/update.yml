@@ -2,17 +2,26 @@ name: Update Portfolio Prices
 
 on:
   schedule:
-    # Robotas automatiškai įsijungs kiekvieną naktį 00:00 UTC laiku
     - cron: '0 0 * * *'
-  workflow_dispatch: # Ši eilutė leis robotą paleisti rankiniu būdu bet kada
+  workflow_dispatch:
+
+permissions:
+  contents: write # Suteikia robotui rašymo teises į repository
 
 jobs:
   update-portfolio:
     runs-on: ubuntu-latest
+    env:
+      # Priverstinai įjungiame Node.js 24 palaikymą, kad išvengtume deprecation įspėjimų
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
     steps:
+      # Atnaujinta į v4 (užtikrina suderinamumą)
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
+      # Atnaujinta į v5 (užtikrina suderinamumą)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -30,5 +39,6 @@ jobs:
           git config --global user.name "Portfolio Bot"
           git config --global user.email "bot@github.com"
           git add portfolio.json
+          # Jei failas nepasikeitė, robotas nesulūš, o tiesiog praleis žingsnį
           git diff-index --quiet HEAD || git commit -m "Auto-update prices [skip ci]"
-          git push
+          git push origin main
