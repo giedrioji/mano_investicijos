@@ -1,37 +1,43 @@
-name: Update Portfolio Prices
+import json
+import yfinance as yf
+from datetime import datetime
 
-on:
-  schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+def update_portfolio():
+    try:
+        with open('portfolio.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        print("Klaida: portfolio.json failas nerastas!")
+        return
 
-# ŠI DALIS SUTEIKIA ROBOTUI TEISĘ ĮRAŠYTI PAKEITIMUS
-permissions:
-  contents: write
+    print("Pradedamas kainų atnaujinimas...")
 
-jobs:
-  update-portfolio:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    for position in data['positions']:
+        ticker_symbol = position['ticker']
+        
+        if ticker_symbol.lower() in ['cash', 'pinigai', 'dividendai', 'divai']:
+            continue
+            
+        try:
+            print(f"Ieškoma kaina įrankiui: {ticker_symbol}")
+            ticker = yf.Ticker(ticker_symbol)
+            todays_data = ticker.history(period='1d')
+            if not todays_data.empty:
+                current_price = todays_data['Close'].iloc[-1]
+                position['currentPrice'] = round(float(current_price), 2)
+                print(f"Sėkmingai atnaujinta {ticker_symbol}: €{position['currentPrice']}")
+            else:
+                print(f"Įspėjimas: Nepavyko gauti kainos {ticker_symbol}")
+        except Exception as e:
+            print(f"Klaida atnaujinant {ticker_symbol}: {e}")
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+    now = datetime.now()
+    data['meta']['lastUpdated'] = now.strftime("%Y-%m-%d %H:%M UTC")
 
-      - name: Install dependencies
-        run: |
-          pip install yfinance
+    with open('portfolio.json', 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    
+    print("Portfolio sėkmingai atnaujintas!")
 
-      - name: Run update script
-        run: python update.py
-
-      - name: Commit and push changes
-        run: |
-          git config --global user.name "Portfolio Bot"
-          git config --global user.email "bot@github.com"
-          git add portfolio.json
-          git diff-index --quiet HEAD || git commit -m "Auto-update prices [skip ci]"
-          git push
+if __name__ == "__main__":
+    update_portfolio()
