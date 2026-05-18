@@ -10,14 +10,14 @@
   "positions": [
     {
       "ticker": "GLW",
-      "category": "Akcijos",
+      "category": "Stocks",
       "shares": 3,
       "avgPrice": 197.10,
       "yahoo": "GLW"
     },
     {
       "ticker": "ETN",
-      "category": "Akcijos",
+      "category": "Stocks",
       "shares": 4,
       "avgPrice": 403.91,
       "yahoo": "ETN"
@@ -31,50 +31,50 @@
     },
     {
       "ticker": "GOOG",
-      "category": "Tech akcijos",
+      "category": "Tech",
       "shares": 2,
       "avgPrice": 384.81,
       "yahoo": "GOOG"
     },
     {
       "ticker": "AVGO",
-      "category": "Tech akcijos",
+      "category": "Tech",
       "shares": 2,
       "avgPrice": 438.47,
       "yahoo": "AVGO"
     },
     {
       "ticker": "HO",
-      "category": "Akcijos",
+      "category": "Stocks",
       "shares": 4,
       "avgPrice": 226.2,
       "yahoo": "HO"
     },
     {
       "ticker": "AI SBF",
-      "category": "Akcijos",
+      "category": "Stocks",
       "shares": 6,
       "avgPrice": 170.74,
       "yahoo": "AI.PA"
     },
     {
       "ticker": "ISRG",
-      "category": "Akcijos",
+      "category": "Stocks",
       "shares": 1,
       "avgPrice": 428.24,
       "yahoo": "ISRG"
     },
     {
       "ticker": "RHM",
-      "category": "Akcijos",
+      "category": "Stocks",
       "shares": 2,
       "avgPrice": 1194.5,
       "yahoo": "RHM.DE"
     }
   ],
   "categoryColors": {
-    "Akcijos": "#2dd4bf",
-    "Tech akcijos": "#60a5fa",
+    "Stocks": "#2dd4bf",
+    "Tech": "#60a5fa",
     "ETF": "#818cf8"
   }
 }
