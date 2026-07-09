@@ -1,6 +1,6 @@
 {
   "meta": {
-    "lastUpdated": "2026-07-08 03:15 UTC",
+    "lastUpdated": "2026-07-09 03:40 UTC",
     "totalInvested": 16780.43,
     "monthlyDCA": 500.0,
     "startDate": "2025-01-01",
@@ -14,7 +14,7 @@
       "shares": 3,
       "avgPrice": 197.1,
       "yahoo": "GLW",
-      "currentPrice": 185.38
+      "currentPrice": 184.03
     },
     {
       "ticker": "ETN",
@@ -22,7 +22,7 @@
       "shares": 4,
       "avgPrice": 403.91,
       "yahoo": "ETN",
-      "currentPrice": 395.68
+      "currentPrice": 399.56
     },
     {
       "ticker": "VWCE",
@@ -37,7 +37,7 @@
       "shares": 2,
       "avgPrice": 384.81,
       "yahoo": "GOOG",
-      "currentPrice": 363.62
+      "currentPrice": 358.71
     },
     {
       "ticker": "AVGO",
@@ -45,7 +45,7 @@
       "shares": 2,
       "avgPrice": 438.47,
       "yahoo": "AVGO",
-      "currentPrice": 370.78
+      "currentPrice": 388.69
     },
     {
       "ticker": "HO",
@@ -67,7 +67,7 @@
       "shares": 1,
       "avgPrice": 428.24,
       "yahoo": "ISRG",
-      "currentPrice": 427.3
+      "currentPrice": 415.1
     },
     {
       "ticker": "RHM",
